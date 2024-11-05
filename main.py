@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, status, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import models
 import schemas
-from database import engine, SessionLocal
+from database import engine, SessionLocal, test_connection
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -24,6 +24,7 @@ app.add_middleware(
 )
 
 models.Base.metadata.create_all(bind=engine)
+test_connection()  # Call the test function to execute the query
 
 
 def get_db():
@@ -64,7 +65,7 @@ async def create(request: schemas.Trip, db: Session = Depends(get_db)):
     return new_trip
 
 
-@app.delete('/trip/{id}', status_code=status.HTTP_204_NO_CONTENT)
+@app.delete('/trip/{id}', status_code=status.HTTP_202_ACCEPTED)
 async def delete(id, db: Session = Depends(get_db)):
     trip = db.query(models.Trip).filter(models.Trip.id == id)
     if not trip.first():

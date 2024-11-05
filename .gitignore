@@ -3,3 +3,5 @@ venv
 .env*
 secret*
 .vscode
+*.zip
+

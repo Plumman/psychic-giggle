@@ -11,5 +11,8 @@ class Trip(BaseModel):
 
 
 class ShowTrip(Trip):
-    pass
+    id: int  # Include this field
+    name: str
+    description: str
+    joiner_total_count: int
     
