@@ -33,6 +33,24 @@ services:
     depends_on:
       mysql-container:
         condition: service_healthy
+        
+  fastapi_test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi_test
+    command: ["./wait-for-it.sh", "mysql-container:3306", "--timeout=30", "--", "pytest"]
+    environment:
+      DB_CONNECTION_STRING: "mysql+pymysql://your_user:your_password@mysql-container/testdb"
+    networks:
+      - my_network
+    ports:
+      - "8001:8001"
+    depends_on:
+      mysql-container:
+        condition: service_healthy
+    volumes:
+      - .:/app
 
 networks:
   my_network:
