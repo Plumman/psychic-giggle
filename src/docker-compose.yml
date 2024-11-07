@@ -39,7 +39,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: fastapi_test
-    command: ["./wait-for-it.sh", "mysql-container:3306", "--timeout=30", "--", "pytest"]
+    command: ["pytest"]
     environment:
       DB_CONNECTION_STRING: "mysql+pymysql://your_user:your_password@mysql-container/testdb"
     networks:
